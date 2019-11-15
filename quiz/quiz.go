@@ -33,7 +33,10 @@ func main() {
 		}
 		var answer int
 		log.Printf("%s ", record[0])
-		fmt.Scanln(&answer)
+		_, err = fmt.Scanln(&answer)
+		if err != nil {
+			log.Panic(err)
+		}
 		correctAnswer, err := strconv.Atoi(record[1])
 		if err != nil {
 			log.Fatal(err)
