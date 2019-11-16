@@ -11,8 +11,15 @@ import (
 	"time"
 )
 
+// Define two constants for inform when an answer is wrong or not
+const (
+	correctAnswer = 1
+	wrongAnswer   = 0
+)
+
+// Variables we use on this quiz, different channels for sync between go routines and the two flags
+// fo setup the file with the quiz and the limit of time
 var (
-	cTimer        chan time.Time
 	cAnswer       chan int
 	cNextQuestion chan int
 	cError        chan error
@@ -21,6 +28,9 @@ var (
 	timeLimitSeconds = flag.Int("limit", 10, "This is the limit of time in seconds to answer each question")
 )
 
+// This method open a csv file and read row per row as soon as receive a signal
+// throught the cNextQuestion channel, then verify the answer and return throught
+// the cError or cAnswer channels, an error or the result of the answer
 func quiz() {
 	file, err := os.Open(*fileName)
 	if err != nil {
@@ -52,9 +62,9 @@ func quiz() {
 					cError <- err
 				}
 				if answer == correctAnswer {
-					cAnswer <- 1
+					cAnswer <- correctAnswer
 				} else {
-					cAnswer <- 0
+					cAnswer <- wrongAnswer
 				}
 			}()
 		}
@@ -62,6 +72,7 @@ func quiz() {
 }
 
 func main() {
+	// Initialize all the variables we are going to use
 	flag.Parse()
 	var totalQuestions, totalSuccessfulAnswers int
 	var err error
@@ -70,15 +81,20 @@ func main() {
 	cNextQuestion = make(chan int)
 	cError = make(chan error)
 
+	// Start the go routine where we manage all related with the quiz file
 	go quiz()
+	// Start a new timer applying a limit in time
 	timer = time.NewTimer(time.Duration(*timeLimitSeconds) * time.Second)
 	for {
+		// Send new question flag for show the next question
 		cNextQuestion <- 1
+		// Listen to all the channels we have for sync between the quiz go routine and the main
+		// go routine and the timer
 		select {
 		case <-timer.C:
 			timer.Reset(time.Duration(*timeLimitSeconds) * time.Second)
 		case result := <-cAnswer:
-			if result == 1 {
+			if result == correctAnswer {
 				totalSuccessfulAnswers++
 			}
 			timer.Stop()
