@@ -36,6 +36,7 @@ Once you have that working, focus on parsing the YAML using the gopkg.in/yaml.v2
 
 After you get the YAML parsing down, try to convert the data into a map and then use the MapHandler to finish the YAMLHandler implementation. Eg you might end up with some code like this:
 
+```
 func YAMLHandler(yaml []byte, fallback http.Handler) (http.HandlerFunc, error) {
   parsedYaml, err := parseYAML(yaml)
   if err != nil {
@@ -44,6 +45,8 @@ func YAMLHandler(yaml []byte, fallback http.Handler) (http.HandlerFunc, error) {
   pathMap := buildMap(parsedYaml)
   return MapHandler(pathMap, fallback), nil
 }
+```
+
 But in order for this to work you will need to create functions like parseYAML and buildMap on your own. This should give you ample experience working with YAML data.
 
 ## Bonus
