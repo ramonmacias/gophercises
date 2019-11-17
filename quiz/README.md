@@ -2,6 +2,21 @@
 
 This exercice is from here https://gophercises.com/exercises/quiz
 
+to run this program use
+```
+go run .\quiz.go -h
+```
+This will return
+
+```
+-file string
+      This flag determine the file name to user (default "problems.csv")
+-limit int
+      This is the limit of time in seconds to answer each question (default 10)
+```
+
+With this two flags you can set up all you need for run the program
+
 This exercise is broken into two parts to help simplify the process of explaining it as well as to make it easier to solve. The second part is harder than the first, so if you get stuck feel free to move on to another problem then come back to part 2 later.
 
 Note: I didn’t break this into multiple exercises like I do for some exercises because both of these combined should only take ~30m to cover in screencasts.
