@@ -11,8 +11,14 @@ import (
 // If the path is not provided in the map, then the fallback
 // http.Handler will be called instead.
 func MapHandler(pathsToUrls map[string]string, fallback http.Handler) http.HandlerFunc {
-	//	TODO: Implement this...
-	return nil
+	return func(resp http.ResponseWriter, req *http.Request) {
+		val, exist := pathsToUrls[req.URL.Path]
+		if exist {
+			http.Redirect(resp, req, val, http.StatusMovedPermanently)
+		} else {
+			resp.WriteHeader(http.StatusOK)
+		}
+	}
 }
 
 // YAMLHandler will parse the provided YAML and then return
