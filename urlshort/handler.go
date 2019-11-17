@@ -24,6 +24,11 @@ func MapHandler(pathsToUrls map[string]string, fallback http.Handler) http.Handl
 	}
 }
 
+// JsonHandler parse the provided JSON and then return
+// an http.HandlerFunc (which also implements http.Handler)
+// that will attempt to map any paths to their corresponding
+// URL. If the path is not provided in the YAML, then the
+// fallback http.Handler will be called instead.
 func JsonHandler(rawJson []byte, fallback http.Handler) (http.HandlerFunc, error) {
 	paths := make(map[string]string)
 	if err := json.Unmarshal(rawJson, &paths); err != nil {
