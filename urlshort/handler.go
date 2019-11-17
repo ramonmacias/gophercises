@@ -16,7 +16,7 @@ func MapHandler(pathsToUrls map[string]string, fallback http.Handler) http.Handl
 		if exist {
 			http.Redirect(resp, req, val, http.StatusMovedPermanently)
 		} else {
-			resp.WriteHeader(http.StatusOK)
+			fallback.ServeHTTP(resp, req)
 		}
 	}
 }
