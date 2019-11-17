@@ -1,6 +1,7 @@
 package urlshort
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"gopkg.in/yaml.v2"
@@ -21,6 +22,14 @@ func MapHandler(pathsToUrls map[string]string, fallback http.Handler) http.Handl
 			fallback.ServeHTTP(resp, req)
 		}
 	}
+}
+
+func JsonHandler(rawJson []byte, fallback http.Handler) (http.HandlerFunc, error) {
+	paths := make(map[string]string)
+	if err := json.Unmarshal(rawJson, &paths); err != nil {
+		return nil, err
+	}
+	return MapHandler(paths, fallback), nil
 }
 
 // RedirectInfo is a struct used for unmarshall info from the YAML file

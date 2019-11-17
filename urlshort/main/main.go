@@ -11,7 +11,8 @@ import (
 )
 
 var (
-	yamlFileName = flag.String("yaml-config-file", "yaml-handle.yml", "This YAML file is used in order to create a handler with the redirect patterns")
+	yamlFileName = flag.String("yaml-config-file", "handler.yml", "This YAML file is used in order to create a handler with the redirect patterns")
+	jsonFileName = flag.String("json-config-file", "handler.json", "This JSON file is used in order to create a handler with the redirect patterns")
 )
 
 func main() {
@@ -36,8 +37,18 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+
+	rawJson, err := readAllFile(*jsonFileName)
+	if err != nil {
+		panic(err)
+	}
+
+	jsonHandler, err := urlshort.JsonHandler(rawJson, yamlHandler)
+	if err != nil {
+		panic(err)
+	}
 	fmt.Println("Starting the server on :8080")
-	http.ListenAndServe(":8080", yamlHandler)
+	http.ListenAndServe(":8080", jsonHandler)
 }
 
 func readAllFile(fileName string) (b []byte, err error) {
