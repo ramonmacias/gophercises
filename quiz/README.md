@@ -4,7 +4,7 @@ This exercice is from here https://gophercises.com/exercises/quiz
 
 to see the flags for setup the program run
 ```
-go run .\quiz.go -h
+go run quiz.go -h
 ```
 This will return
 
@@ -18,7 +18,7 @@ This will return
 Then you can use it
 
 ```
-go run .\quiz.go -file=sample.csv -limit=5
+go run quiz.go -file=sample.csv -limit=5
 ```
 
 With this two flags you can set up all you need for run the program
