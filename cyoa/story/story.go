@@ -8,7 +8,7 @@ import (
 
 type chapter struct {
 	Title      string
-	Paragraphs []string `json:"name:story"`
+	Paragraphs []string `json:"story"`
 	Options    []option
 }
 

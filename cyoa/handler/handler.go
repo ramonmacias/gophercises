@@ -13,20 +13,9 @@ func ChapterHandler(resp http.ResponseWriter, req *http.Request) {
 	t, err := template.ParseFiles("templates/chapter.html")
 	check(err)
 
-	data := struct {
-		Title     string
-		Paragraph string
-		Items     []string
-	}{
-		Title:     mux.Vars(req)["id"],
-		Paragraph: story.GetChapter(mux.Vars(req)["id"]).Title,
-		Items: []string{
-			"My photos",
-			"My blog",
-		},
-	}
+	chapter := story.GetChapter(mux.Vars(req)["id"])
 
-	err = t.Execute(resp, data)
+	err = t.Execute(resp, chapter)
 	check(err)
 }
 

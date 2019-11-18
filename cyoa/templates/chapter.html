@@ -6,7 +6,8 @@
   </head>
   <body>
     <h1>{{.Title}}</h1>
-    <h1>{{.Paragraph}}</h1>
-    {{range .Items}}<div>{{ . }}</div>{{else}}<div><strong>no rows</strong></div>{{end}}
+    {{range .Paragraphs}}<div>{{ . }}</div>{{else}}<div><strong>no rows</strong></div>{{end}}
+    <h1>Options</h1>
+    {{range .Options}}<div><a href="{{ .Arc }}">{{ .Text }}</a></div>{{else}}<div><strong>no rows</strong></div>{{end}}
   </body>
 </html>
