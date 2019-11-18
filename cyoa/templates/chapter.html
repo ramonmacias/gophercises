@@ -3,11 +3,35 @@
   <head>
     <meta charset="UTF-8">
     <title>{{.Title}}</title>
+    <style>
+      .card {
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        transition: 0.3s;
+        width: 40%;
+        margin: 0 auto;
+        padding: 16px;
+      }
+
+      .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+      }
+
+      .container {
+        padding: 2px 16px;
+        background-color: navajowhite;
+        margin-top: 16px;
+        padding-bottom: 16px;
+      }
+    </style>
   </head>
   <body>
-    <h1>{{.Title}}</h1>
-    {{range .Paragraphs}}<div>{{ . }}</div>{{else}}<div><strong>no rows</strong></div>{{end}}
-    <h1>Options</h1>
-    {{range .Options}}<div><a href="{{ .Arc }}">{{ .Text }}</a></div>{{else}}<div><strong>no rows</strong></div>{{end}}
+    <div class="card">
+      <h1>{{.Title}}</h1>
+      {{range .Paragraphs}}<div>{{ . }}</div>{{else}}<div><strong>no rows</strong></div>{{end}}
+      <div class="container">
+        <h1>Options</h1>
+        {{range .Options}}<div><a href="{{ .Arc }}">{{ .Text }}</a></div>{{else}}<div><strong>no rows</strong></div>{{end}}
+      </div>
+    </div>
   </body>
 </html>
