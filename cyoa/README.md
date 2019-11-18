@@ -2,6 +2,8 @@
 
 This exercice is from here https://gophercises.com/exercises/cyoa
 
+First you need to go get https://github.com/gorilla/mux is a http router I used on this exercise
+
 To run the program
 
 ```
