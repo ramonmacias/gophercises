@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	mode = flag.String("mode", "server", "Select if we want to see the story in html or in the terminal")
+	mode = flag.String("mode", "server", "Select if we want to see the story in html (server) or in the terminal (terminal)")
 )
 
 func main() {

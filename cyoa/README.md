@@ -4,10 +4,30 @@ This exercice is from here https://gophercises.com/exercises/cyoa
 
 First you need to go get https://github.com/gorilla/mux is a http router I used on this exercise
 
-To run the program
+First you can check the options for run the program
 
 ```
-go run main.go
+go run main.go -h
+```
+
+Will show you
+
+```
+-mode string
+      Select if we want to see the story in html (server) or in the terminal (terminal) (default "server")
+```
+
+
+To run the program in the terminal
+
+```
+go run main.go -h mode=terminal
+```
+
+To run the program in the server in html
+
+```
+go run main.go -h mode=server
 ```
 
 Then visit http://localhost:8080/chapter/intro for start the adventure!
