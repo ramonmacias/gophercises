@@ -9,6 +9,8 @@ import (
 	"github.com/ramonmacias/gophercises/cyoa/story"
 )
 
+// ChapterHandler is a handler func that build the go template, get the specific
+// chapter data, fill in it and then add it to the http response
 func ChapterHandler(resp http.ResponseWriter, req *http.Request) {
 	t, err := template.ParseFiles("templates/chapter.html")
 	check(err)

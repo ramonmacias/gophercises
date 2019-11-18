@@ -12,9 +12,11 @@ import (
 )
 
 var (
+	// Flag used for select between a server or terminal mode
 	mode = flag.String("mode", "server", "Select if we want to see the story in html (server) or in the terminal (terminal)")
 )
 
+// Function main from where we run the program in a server or in a terminal
 func main() {
 	flag.Parse()
 	switch *mode {
@@ -27,6 +29,8 @@ func main() {
 	}
 }
 
+// runServer function will build a new server with the handler for show using go
+// templates the story in an html page
 func runServer() {
 	m := mux.NewRouter()
 	m.HandleFunc("/chapter/{id}", handler.ChapterHandler)
@@ -35,6 +39,8 @@ func runServer() {
 	http.ListenAndServe(":8080", m)
 }
 
+// runTerminal will show the same story but from the terminal instead from an
+// html file
 func runTerminal() {
 	chapter := story.GetChapter("intro")
 	log.Println("Welcome to the Gopher choose your own adventure!")
