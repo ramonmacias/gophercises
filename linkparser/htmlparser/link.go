@@ -22,8 +22,10 @@ func ParseFile(filename string) (links []Link, err error) {
 	var currentParent *html.Node
 
 	funcNode = func(n *html.Node) {
-		if currentParent == n.Parent && len(links) > 0 && n.Type != html.CommentNode {
-			links[len(links)-1].Text += n.Data
+		if (currentParent == n.Parent || n.Parent.Parent == currentParent) && len(links) > 0 {
+			if n.Type == html.TextNode {
+				links[len(links)-1].Text += n.Data
+			}
 		}
 		if n.Type == html.ElementNode && n.Data == "a" {
 			for _, a := range n.Attr {
