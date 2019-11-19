@@ -1,4 +1,11 @@
 ## Exercise details
+
+You can find this exercise here https://gophercises.com/exercises/link
+
+In order to run all the samples I made a link_test.go file which you can run and will test the
+parser in front all the given samples
+
+
 In this exercise your goal is create a package that makes it easy to parse an HTML file and extract all of the links (<a href="">...</a> tags). For each extracted link you should return a data structure that includes both the href, as well as the text inside the link. Any HTML inside of the link can be stripped out, along with any extra whitespace including newlines, back-to-back spaces, etc.
 
 Links will be nested in different HTML elements, and it is very possible that you will have to deal with HTML similar to code below.

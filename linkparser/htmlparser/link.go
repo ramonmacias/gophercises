@@ -1,22 +1,39 @@
 package htmlparser
 
 import (
+	"io"
 	"os"
+	"strings"
 
 	"golang.org/x/net/html"
 )
 
+// Link will keep all information related with (<a href="...."/>) a tag from
+// HTML document
 type Link struct {
 	Href string
 	Text string
 }
 
-func ParseFile(filename string) (links []Link, err error) {
+// ParseFile from a filename we will parse into a list of Links
+func ParseFile(filename string) ([]Link, error) {
 	f, err := os.Open(filename)
 	if err != nil {
 		return nil, err
 	}
-	doc, err := html.Parse(f)
+	return Parse(f)
+}
+
+// ParseValue given a HTML doc in string format we will convert it into
+// slice of Links
+func ParseValue(htmlDoc string) ([]Link, error) {
+	return Parse(strings.NewReader(htmlDoc))
+}
+
+// Parse given a Reader interface we are going to parse and get a slice of
+// Links
+func Parse(r io.Reader) (links []Link, err error) {
+	doc, err := html.Parse(r)
 
 	var funcNode func(*html.Node)
 	var currentParent *html.Node

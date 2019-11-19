@@ -17,3 +17,9 @@ learnt more about handlers and how to make redirections
 This is an exercise of choos your own adventure, used gorilla mux for build a new server, use go templates for create a web application
 and apply a few small concepts about MVC using Go, also you have the option to run the same name
 on the terminal
+
+#### Link parser
+
+This is an exrcise in where I learnt of how to define an API, use a new package for
+get information of a HTML document, manage a tree structure and also use a the test
+package from the standard library to run all the samples
