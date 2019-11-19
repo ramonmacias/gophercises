@@ -15,4 +15,5 @@ learnt more about handlers and how to make redirections
 #### CYOA
 
 This is an exercise of choos your own adventure, used gorilla mux for build a new server, use go templates for create a web application
-and apply a few small concepts about MVC using Go
+and apply a few small concepts about MVC using Go, also you have the option to run the same name
+on the terminal
