@@ -1,7 +1,6 @@
 package htmlparser
 
 import (
-	"log"
 	"os"
 
 	"golang.org/x/net/html"
@@ -20,11 +19,17 @@ func ParseFile(filename string) (links []Link, err error) {
 	doc, err := html.Parse(f)
 
 	var funcNode func(*html.Node)
+	var currentParent *html.Node
+
 	funcNode = func(n *html.Node) {
+		if currentParent == n.Parent && len(links) > 0 {
+			links[len(links)-1].Text += n.Data
+		}
 		if n.Type == html.ElementNode && n.Data == "a" {
 			for _, a := range n.Attr {
 				if a.Key == "href" {
-					log.Println(a.Val)
+					links = append(links, Link{Href: a.Val})
+					currentParent = n
 					break
 				}
 			}
@@ -34,5 +39,5 @@ func ParseFile(filename string) (links []Link, err error) {
 		}
 	}
 	funcNode(doc)
-	return nil, nil
+	return links, nil
 }
