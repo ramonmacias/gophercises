@@ -1,11 +1,12 @@
 package main
 
 import (
-	"encoding/xml"
+	"bytes"
 	"flag"
 	"io"
+	"io/ioutil"
+	"log"
 	"net/http"
-	"os"
 
 	"github.com/ramonmacias/gophercises/linkparser/htmlparser"
 )
@@ -32,24 +33,24 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	// TODO should be close due is a Body response
-	// defer html.Close()
 
-	links, err := htmlparser.Parse(html)
-	if err != nil {
-		panic(err)
-	}
+	getAllLinks(html, 0)
 
-	siteMap, err := buildSiteMap(links)
-	if err != nil {
-		panic(err)
-	}
-
-	output, err := xml.MarshalIndent(siteMap, " ", "    ")
-	if err != nil {
-		panic(err)
-	}
-	os.Stdout.Write(output)
+	// links, err := htmlparser.Parse(html)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	//
+	// siteMap, err := buildSiteMap(links)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	//
+	// output, err := xml.MarshalIndent(siteMap, " ", "    ")
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// os.Stdout.Write(output)
 }
 
 func getHtmlPage(website *string) (r io.Reader, err error) {
@@ -57,13 +58,48 @@ func getHtmlPage(website *string) (r io.Reader, err error) {
 	if err != nil {
 		return nil, err
 	}
-	return resp.Body, nil
+	defer resp.Body.Close()
+	b, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	return bytes.NewReader(b), nil
+}
+
+func getAllLinks(r io.Reader, n int) {
+	links, err := htmlparser.Parse(r)
+	if err != nil {
+		panic(err)
+	}
+	if n >= 3 {
+		log.Println("BREAAAK")
+		return
+	} else {
+		for _, link := range links {
+			log.Println(link.Href)
+			f, _ := getHtmlPage(&link.Href)
+			if f != nil {
+				n++
+				getAllLinks(f, n)
+			}
+		}
+	}
 }
 
 func buildSiteMap(links []htmlparser.Link) (siteMap *SiteMap, err error) {
 	siteMap = &SiteMap{}
 	for _, link := range links {
 		siteMap.Url = append(siteMap.Url, Url{link.Href})
+		html, err := getHtmlPage(&link.Href)
+		if err == nil {
+			links2, err := htmlparser.Parse(html)
+			if err != nil {
+				panic(err)
+			}
+			for _, link2 := range links2 {
+				siteMap.Url = append(siteMap.Url, Url{link2.Href})
+			}
+		}
 	}
 	return siteMap, err
 }
