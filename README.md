@@ -23,3 +23,8 @@ on the terminal
 This is an exrcise in where I learnt of how to define an API, use a new package for
 get information of a HTML document, manage a tree structure and also use a the test
 package from the standard library to run all the samples
+
+#### Sitemap
+
+This is an exercise in where I learnt about how to use my own library, I used packages such as http, url or xml and I learnt a new
+algorithm useful for this exrcises named BFS
