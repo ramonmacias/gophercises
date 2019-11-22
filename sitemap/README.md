@@ -1,3 +1,24 @@
+# Sitemap
+
+This exercise comes from https://gophercises.com/exercises/sitemap
+
+```
+go run main.go -h
+```
+
+This will return you the setup options
+
+```
+-website string
+      Inform here the website you want to build a sitemap
+```
+
+The you can run the program using
+
+```
+go run main.go -website=https://www.calhoun.io/
+```
+
 # Exercise details
 
 A sitemap is basically a map of all of the pages within a specific domain. They are used by search engines and other tools to inform them of all of the pages on your domain.

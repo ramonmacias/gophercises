@@ -10,10 +10,12 @@ import (
 	"github.com/ramonmacias/gophercises/linkparser/htmlparser"
 )
 
+// SiteMap keep the information about all the links from a website
 type SiteMap struct {
 	Url []Url `xml:"url"`
 }
 
+// Urlkeep the information and structure for the definition of a site URL
 type Url struct {
 	Loc string `xml:"loc"`
 }
@@ -40,6 +42,8 @@ func main() {
 	os.Stdout.Write(output)
 }
 
+// getLinks will take a website url as a parameter and return a list of links
+// found on this page
 func getLinks(website string) ([]htmlparser.Link, error) {
 	resp, err := http.Get(website)
 	if err != nil {
@@ -55,6 +59,8 @@ func getLinks(website string) ([]htmlparser.Link, error) {
 	return q, nil
 }
 
+// getAllLinks will return all the links from a website url given as a parameter
+// and all the childrens base on a depth level n
 func getAllLinks(website string, n int) (linksRes []htmlparser.Link) {
 	rootLinks, _ := getLinks(website)
 	log.Printf("Are going to search from %d root nodes", len(rootLinks))
@@ -64,6 +70,8 @@ func getAllLinks(website string, n int) (linksRes []htmlparser.Link) {
 	return linksRes
 }
 
+// getChildLinksWithDepthLimit given a root and a depth limit this function will
+// find all the links
 func getChildLinksWithDepthLimit(root htmlparser.Link, n int) (linksRes []htmlparser.Link) {
 	discovered := make(map[string]bool)
 	depthCount := 0
@@ -92,6 +100,8 @@ func getChildLinksWithDepthLimit(root htmlparser.Link, n int) (linksRes []htmlpa
 	return linksRes
 }
 
+// buildSiteMap from a list of links will build a sitemap struct that then we can
+// use it to marshal into a xml
 func buildSiteMap(links []htmlparser.Link) (siteMap *SiteMap, err error) {
 	siteMap = &SiteMap{}
 	for _, link := range links {
