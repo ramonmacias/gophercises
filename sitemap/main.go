@@ -5,6 +5,7 @@ import (
 	"flag"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 
 	"github.com/ramonmacias/gophercises/linkparser/htmlparser"
@@ -40,11 +41,12 @@ func main() {
 		panic(err)
 	}
 	os.Stdout.Write(output)
+
 }
 
 // getLinks will take a website url as a parameter and return a list of links
 // found on this page
-func getLinks(website string) ([]htmlparser.Link, error) {
+func getLinks(website string) (links []htmlparser.Link, err error) {
 	resp, err := http.Get(website)
 	if err != nil {
 		return nil, err
@@ -55,15 +57,49 @@ func getLinks(website string) ([]htmlparser.Link, error) {
 	if err != nil {
 		return nil, err
 	}
+	for _, link := range q {
+		l, err := cleanLink(website, link)
+		if err != nil {
+			return nil, err
+		}
+		if l != nil {
+			links = append(links, *l)
+		}
+	}
 
-	return q, nil
+	return links, nil
+}
+
+// cleanLink given a root website and a link we clean and discard all the links
+// that are not part of the same domain
+func cleanLink(website string, link htmlparser.Link) (*htmlparser.Link, error) {
+	rootUrl, err := url.Parse(website)
+	if err != nil {
+		return nil, err
+	}
+
+	u, err := url.Parse(link.Href)
+	if err != nil {
+		return nil, err
+	}
+	if u.Host == "" {
+		return &htmlparser.Link{
+			Href: website + link.Href,
+			Text: link.Text,
+		}, nil
+	} else if u.Host == rootUrl.Host {
+		return &htmlparser.Link{
+			Href: link.Href,
+			Text: link.Text,
+		}, nil
+	}
+	return nil, nil
 }
 
 // getAllLinks will return all the links from a website url given as a parameter
 // and all the childrens base on a depth level n
 func getAllLinks(website string, n int) (linksRes []htmlparser.Link) {
 	rootLinks, _ := getLinks(website)
-	log.Printf("Are going to search from %d root nodes", len(rootLinks))
 	for _, link := range rootLinks {
 		linksRes = append(linksRes, getChildLinksWithDepthLimit(link, n)...)
 	}
@@ -71,7 +107,7 @@ func getAllLinks(website string, n int) (linksRes []htmlparser.Link) {
 }
 
 // getChildLinksWithDepthLimit given a root and a depth limit this function will
-// find all the links
+// find all the links, I used the BFS algorithm to achieve this
 func getChildLinksWithDepthLimit(root htmlparser.Link, n int) (linksRes []htmlparser.Link) {
 	discovered := make(map[string]bool)
 	depthCount := 0
