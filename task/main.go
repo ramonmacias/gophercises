@@ -16,16 +16,12 @@ limitations under the License.
 package main
 
 import (
-	"log"
-
+	"github.com/ramonmacias/gophercises/task/cmd"
 	"github.com/ramonmacias/gophercises/task/internal/db"
 )
 
 func main() {
-	// cmd.Execute()
 	db.Start()
-
-	log.Printf("%+v", db.GetClient().Info())
-
+	cmd.Execute()
 	db.GetClient().Close()
 }

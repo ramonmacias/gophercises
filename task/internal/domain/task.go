@@ -11,6 +11,16 @@ const (
 	bucketName = "tasks"
 )
 
+func init() {
+	err := db.GetClient().Update(func(tx *bolt.Tx) error {
+		_, err := tx.CreateBucketIfNotExists([]byte(bucketName))
+		return err
+	})
+	if err != nil {
+		panic(err)
+	}
+}
+
 // Task struct will keep information related with task
 type Task struct {
 	ID          int
