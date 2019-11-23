@@ -24,8 +24,7 @@ func Encrypt(s string, k int32) (ret string) {
 			for i, c := range validAlphabet {
 				if c == string(r) {
 					mov := i + int(k)
-					log.Println(i, mov, len(validAlphabet), mov%len(validAlphabet), c, (mov % 25))
-					ret += validAlphabet[(mov % 25)]
+					ret += validAlphabet[(mov % len(validAlphabet))]
 				}
 			}
 		} else {
@@ -42,10 +41,11 @@ func EncryptASCII(s string, k int32) (ret string) {
 	var validID = regexp.MustCompile(`[a-z]|[A-Z]`)
 	for _, r := range s {
 		if validID.MatchString(string(r)) {
+			mov := r + k
 			if unicode.IsUpper(r) {
-				ret += string(minUpperRune + ((r + k) % 26))
+				ret += string(minUpperRune + (mov % 26))
 			} else {
-				ret += string(minLowerRune + ((r + k) % 26))
+				ret += string(minLowerRune + (mov % 26))
 			}
 		} else {
 			ret += string(r)
