@@ -28,3 +28,8 @@ package from the standard library to run all the samples
 
 This is an exercise in where I learnt about how to use my own library, I used packages such as http, url or xml and I learnt a new
 algorithm useful for this exrcises named BFS
+
+#### Hackerrank
+
+The main idea with this exercise is to discover the website name Hackerrank where we can find a lot of problems to solve that will
+help us to improve our coding skills, on this case we solve the camelCase problem and the caesar cipher
