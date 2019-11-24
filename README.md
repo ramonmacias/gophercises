@@ -33,3 +33,8 @@ algorithm useful for this exrcises named BFS
 
 The main idea with this exercise is to discover the website name Hackerrank where we can find a lot of problems to solve that will
 help us to improve our coding skills, on this case we solve the camelCase problem and the caesar cipher
+
+#### CLI task
+
+With this exercise I learn about how to create a command line cli using go with cobra, as well the manage of a simple and small database
+named bolt, and how to use go install in order to have this client install in my terminal
