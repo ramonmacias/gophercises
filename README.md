@@ -1,5 +1,6 @@
 # gophercises
-This is going to be the repository where I'm saving all the exercices I make from gophercises website https://gophercises.com/
+The main idea on this repository, is to add a list of interesting exrcises that I think is good to try to solve it in order
+to improve my Go skills
 
 #### Quiz
 
