@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"github.com/boltdb/bolt"
+	"github.com/mitchellh/go-homedir"
 )
 
 var (
@@ -29,7 +30,11 @@ func setup() *configuration {
 }
 
 func boltClient() (client *bolt.DB) {
-	db, err := bolt.Open("task.db", 0600, nil)
+	dir, err := homedir.Dir()
+	if err != nil {
+		panic(err)
+	}
+	db, err := bolt.Open(dir+"/task.db", 0600, nil)
 	if err != nil {
 		panic(err)
 	}
