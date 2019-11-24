@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"log"
 	"strings"
 
 	"github.com/ramonmacias/gophercises/task/internal/domain"
@@ -25,18 +26,14 @@ import (
 // addCmd represents the add command
 var addCmd = &cobra.Command{
 	Use:   "add",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Add a new task to your TODO list",
+	Long:  `Add a new task to your TODO list`,
 	Run: func(cmd *cobra.Command, args []string) {
 		t := domain.Task{Description: strings.Join(args, " ")}
 		if err := t.Create(); err != nil {
 			panic(err)
 		}
+		log.Printf(`Added "%s" to your task list.`, t.Description)
 	},
 }
 

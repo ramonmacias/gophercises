@@ -55,7 +55,7 @@ func List() (tasks []Task, err error) {
 
 		for k, v := c.First(); k != nil; k, v = c.Next() {
 			tasks = append(tasks, Task{
-				ID:          int(binary.BigEndian.Uint16(k)),
+				ID:          int(k[len(k)-1]),
 				Description: string(v),
 			})
 		}

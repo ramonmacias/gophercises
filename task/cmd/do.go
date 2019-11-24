@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"log"
 	"strconv"
 
 	"github.com/ramonmacias/gophercises/task/internal/domain"
@@ -25,13 +26,8 @@ import (
 // doCmd represents the do command
 var doCmd = &cobra.Command{
 	Use:   "do",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Mark a task on your TODO list as complete",
+	Long:  `Mark a task on your TODO list as complete`,
 	Run: func(cmd *cobra.Command, args []string) {
 		id, err := strconv.Atoi(args[0])
 		if err != nil {
@@ -41,6 +37,7 @@ to quickly create a Cobra application.`,
 		if err = t.Remove(); err != nil {
 			panic(err)
 		}
+		log.Printf(`You have completed the "%d" task.`, t.ID)
 	},
 }
 

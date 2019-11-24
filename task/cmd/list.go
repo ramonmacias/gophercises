@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/ramonmacias/gophercises/task/internal/domain"
 	"github.com/spf13/cobra"
@@ -25,20 +26,16 @@ import (
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "List all of your incomplete tasks",
+	Long:  `List all of your incomplete tasks`,
 	Run: func(cmd *cobra.Command, args []string) {
 		tasks, err := domain.List()
 		if err != nil {
 			panic(err)
 		}
+		log.Println("You have the following tasks:")
 		for _, task := range tasks {
-			fmt.Printf("%d - %s", task.ID, task.Description)
+			fmt.Printf("%d - %s \n", task.ID, task.Description)
 		}
 	},
 }
