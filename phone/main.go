@@ -5,6 +5,7 @@ import (
 
 	"github.com/ramonmacias/gophercises/phone/db"
 	"github.com/ramonmacias/gophercises/phone/domain"
+	"github.com/ramonmacias/gophercises/phone/normalizer"
 )
 
 func main() {
@@ -28,6 +29,15 @@ func main() {
 	check(err)
 
 	phones, err := domain.ListAllPhones()
+	check(err)
+	for _, phone := range phones {
+		log.Printf("Phone ID: %d original number: %s normalized number: %s\n", phone.ID, phone.OriginalNumber, phone.NormalizedNumber)
+		phone.NormalizedNumber = normalizer.Normalize(phone.OriginalNumber)
+		err = phone.Update()
+		check(err)
+	}
+
+	phones, err = domain.ListAllPhones()
 	check(err)
 	for _, phone := range phones {
 		log.Printf("Phone ID: %d original number: %s normalized number: %s\n", phone.ID, phone.OriginalNumber, phone.NormalizedNumber)

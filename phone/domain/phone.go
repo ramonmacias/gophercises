@@ -18,6 +18,7 @@ const (
     INSERT INTO phone(original_number, normalized_number)
     VALUES ('%s', '%s');`
 	listAllPhones = `select id, original_number, normalized_number from phone;`
+	updatePhone   = `UPDATE phone SET original_number = '%s' , normalized_number = '%s' WHERE id = %d;`
 )
 
 type Phone struct {
@@ -32,6 +33,19 @@ func (p *Phone) Save() error {
 		return err
 	}
 	_, err = tx.Exec(fmt.Sprintf(insertPhone, p.OriginalNumber, p.NormalizedNumber))
+	if err != nil {
+		_ = tx.Rollback()
+		return err
+	}
+	return tx.Commit()
+}
+
+func (p *Phone) Update() error {
+	tx, err := db.GetClient().BeginTx(db.GetContext(), &sql.TxOptions{Isolation: sql.LevelSerializable})
+	if err != nil {
+		return err
+	}
+	_, err = tx.Exec(fmt.Sprintf(updatePhone, p.OriginalNumber, p.NormalizedNumber, p.ID))
 	if err != nil {
 		_ = tx.Rollback()
 		return err
