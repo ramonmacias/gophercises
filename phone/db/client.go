@@ -72,3 +72,12 @@ func Stop() {
 	setup().cancel()
 	setup().client.Close()
 }
+
+func Clean() error {
+	// TODO is not working because needs a transaction
+	_, err := setup().client.Query(`select 'drop table if exists "' || tablename || '" cascade;' from pg_tables;`)
+	if err != nil {
+		return err
+	}
+	return nil
+}
