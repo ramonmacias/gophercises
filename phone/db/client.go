@@ -74,10 +74,14 @@ func Stop() {
 }
 
 func Clean() error {
-	// TODO is not working because needs a transaction
-	_, err := setup().client.Query(`select 'drop table if exists "' || tablename || '" cascade;' from pg_tables;`)
+	tx, err := GetClient().BeginTx(GetContext(), &sql.TxOptions{Isolation: sql.LevelSerializable})
 	if err != nil {
 		return err
 	}
-	return nil
+	_, err = tx.Exec(`drop table if exists phone`)
+	if err != nil {
+		_ = tx.Rollback()
+		return err
+	}
+	return tx.Commit()
 }
