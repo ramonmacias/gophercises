@@ -1,7 +1,8 @@
 package main
 
-import "log"
+import "github.com/ramonmacias/gophercises/phone/db"
 
 func main() {
-	log.Println("IEP")
+	db.Start()
+	db.Stop()
 }
