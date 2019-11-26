@@ -7,6 +7,7 @@ import (
 	"github.com/ramonmacias/gophercises/phone/db"
 )
 
+// All the queries we are going to use for manage all related with the phones
 const (
 	createPhoneTable = `
     CREATE TABLE phone(
@@ -21,12 +22,14 @@ const (
 	updatePhone   = `UPDATE phone SET original_number = '%s' , normalized_number = '%s' WHERE id = %d;`
 )
 
+// Phone defines the concept of phone using fields for save original and normalized numbers
 type Phone struct {
 	ID               int
 	OriginalNumber   string
 	NormalizedNumber string
 }
 
+// Save method will create a new phone into our database
 func (p *Phone) Save() error {
 	tx, err := db.GetClient().BeginTx(db.GetContext(), &sql.TxOptions{Isolation: sql.LevelSerializable})
 	if err != nil {
@@ -40,6 +43,7 @@ func (p *Phone) Save() error {
 	return tx.Commit()
 }
 
+// Update method will update all the values for the given phone
 func (p *Phone) Update() error {
 	tx, err := db.GetClient().BeginTx(db.GetContext(), &sql.TxOptions{Isolation: sql.LevelSerializable})
 	if err != nil {
@@ -53,6 +57,7 @@ func (p *Phone) Update() error {
 	return tx.Commit()
 }
 
+// ListAllPhones function will return the list of all the phones saved into our db
 func ListAllPhones() (phones []Phone, err error) {
 	rows, err := db.GetClient().QueryContext(db.GetContext(), listAllPhones)
 	if err != nil {
@@ -73,6 +78,7 @@ func ListAllPhones() (phones []Phone, err error) {
 	return phones, nil
 }
 
+// CreatePhoneTable will create the table where we save phones
 func CreatePhoneTable() error {
 	_, err := db.GetClient().Query(createPhoneTable)
 	if err != nil {
