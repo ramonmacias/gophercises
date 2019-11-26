@@ -32,6 +32,7 @@ func setup() *configuration {
 }
 
 func client() *configuration {
+	// TODO this should be moved into a .env file in order to allow a different connection
 	connStr := "user=ramon dbname=phone_normalizer password=ramon_postgres_pass sslmode=disable"
 
 	pool, err := sql.Open("postgres", connStr)

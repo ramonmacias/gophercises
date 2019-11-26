@@ -1,3 +1,15 @@
+# Phone normalizer
+
+This exercise comes from https://gophercises.com/exercises/phone
+
+To run this program just
+
+```
+go run main.go
+```
+
+This will create a connection to a postgres db and then run a test with different numbers and their normalization
+
 # Exercise details
 
 This exercise is fairly straight-forward - we are going to be writing a program that will iterate through a database and normalize all of the phone numbers in the DB. After normalizing all of the data we might find that there are duplicates, so we will then remove those duplicates keeping just one entry in our database.

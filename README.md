@@ -39,3 +39,8 @@ help us to improve our coding skills, on this case we solve the camelCase proble
 
 With this exercise I learn about how to create a command line cli using go with cobra, as well the manage of a simple and small database
 named bolt, and how to use go install in order to have this client install in my terminal
+
+#### Phone Normalizer
+
+With this exercise I learn of how to use the sql standard library, on that case ho to config and setup a new client for connect to a
+postgres database, the idea is to try another packages but I tried before the GORM so makes no sense for me to do it
