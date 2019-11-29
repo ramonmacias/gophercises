@@ -1,7 +1,9 @@
 package deck
 
 import (
+	"math/rand"
 	"sort"
+	"time"
 )
 
 //go:generate stringer -type=Suit,Rank
@@ -80,6 +82,18 @@ func defaultSortFunc(cards []Card) []Card {
 			return true
 		}
 		return false
+	})
+	return cards
+}
+
+// Shuffle functions just re sort the slice into a random order, using the current
+// time in nanosecond as a seed
+func Shuffle(cards []Card) []Card {
+	r := rand.New(rand.NewSource(int64(time.Now().Nanosecond())))
+	r.Shuffle(len(cards), func(i int, j int) {
+		aux := cards[i]
+		cards[i] = cards[j]
+		cards[j] = aux
 	})
 	return cards
 }

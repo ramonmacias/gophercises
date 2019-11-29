@@ -59,3 +59,13 @@ func TestCustomSortFunc(t *testing.T) {
 		t.Errorf("Expected %v but got %v", expected, d)
 	}
 }
+
+func TestShuffleFunc(t *testing.T) {
+	d := deck.New()
+	oldDeck := make([]deck.Card, len(d))
+	copy(oldDeck, d)
+	shuffled := deck.Shuffle(d)
+	if reflect.DeepEqual(shuffled, oldDeck) {
+		t.Error("After use shuffle function shouldn't have the same sorted slice")
+	}
+}
