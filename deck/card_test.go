@@ -1,19 +1,24 @@
 package deck_test
 
 import (
-	"log"
+	"reflect"
+	"sort"
 	"testing"
 
 	"github.com/ramonmacias/gophercises/deck"
 )
 
-func TestBuilder(t *testing.T) {
-	c := deck.Card{
-		Suit: deck.Spade,
-		Rank: deck.Ace,
-	}
+func TesBuilder(t *testing.T) {
+	expectedRank := "Ace"
+	expectedSuit := "Spade"
 
-	log.Println(c, c.Suit, c.Rank)
+	c := deck.Card{deck.Ace, deck.Spade}
+	if c.Rank.String() != expectedRank {
+		t.Errorf("Expected %s but got %s", expectedRank, c.Rank.String())
+	}
+	if c.Suit.String() != expectedSuit {
+		t.Errorf("Expected %s but got %s", expectedSuit, c.Suit.String())
+	}
 }
 
 func TestFuncNew(t *testing.T) {
@@ -24,9 +29,33 @@ func TestFuncNew(t *testing.T) {
 	}
 }
 
-func TestSort(t *testing.T) {
-	d := deck.New()
-	log.Println(d)
-	deck.Sort(d, nil)
-	log.Println(d)
+func TestDefaultSortFunc(t *testing.T) {
+	d := []deck.Card{deck.Card{deck.King, deck.Spade}, deck.Card{deck.Ace, deck.Spade}, deck.Card{deck.Two, deck.Spade}}
+	expected := []deck.Card{deck.Card{deck.Ace, deck.Spade}, deck.Card{deck.Two, deck.Spade}, deck.Card{deck.King, deck.Spade}}
+
+	d = deck.Sort(d, nil)
+	if !reflect.DeepEqual(d, expected) {
+		t.Errorf("Expected %v but got %v", expected, d)
+	}
+}
+
+func TestCustomSortFunc(t *testing.T) {
+	d := []deck.Card{deck.Card{deck.King, deck.Spade}, deck.Card{deck.Ace, deck.Spade}, deck.Card{deck.Two, deck.Spade}}
+	expected := []deck.Card{deck.Card{deck.King, deck.Spade}, deck.Card{deck.Two, deck.Spade}, deck.Card{deck.Ace, deck.Spade}}
+
+	customSortFunc := func(cards []deck.Card) []deck.Card {
+		sort.Slice(cards, func(i int, j int) bool {
+			if cards[i].Rank > cards[j].Rank {
+				return true
+			}
+			return false
+		})
+		return cards
+	}
+
+	d = deck.Sort(d, customSortFunc)
+
+	if !reflect.DeepEqual(d, expected) {
+		t.Errorf("Expected %v but got %v", expected, d)
+	}
 }
