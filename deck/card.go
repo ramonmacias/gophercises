@@ -8,6 +8,10 @@ import (
 
 //go:generate stringer -type=Suit,Rank
 
+const (
+	maxNumberJokers = 10
+)
+
 // Suit type represents the which can of suit has the card
 type Suit uint8
 
@@ -95,5 +99,20 @@ func Shuffle(cards []Card) []Card {
 		cards[i] = cards[j]
 		cards[j] = aux
 	})
+	return cards
+}
+
+// AddRandomJokers is a function that will add new joker cards into a given deck
+// from a number between 0 and maxNumberJokers constant
+func AddRandomJokers(cards []Card) []Card {
+	return AddRandomJokersN(cards, maxNumberJokers)
+}
+
+// AddRandomJokersN is a function that will add a maximum of n random jokers
+func AddRandomJokersN(cards []Card, n int) []Card {
+	r := rand.New(rand.NewSource(int64(time.Now().Nanosecond())))
+	for index := 0; index < r.Intn(n)+1; index++ {
+		cards = append(cards, Card{Ace, Joker})
+	}
 	return cards
 }

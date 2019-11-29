@@ -69,3 +69,11 @@ func TestShuffleFunc(t *testing.T) {
 		t.Error("After use shuffle function shouldn't have the same sorted slice")
 	}
 }
+
+func TestAddRandomJokersFunc(t *testing.T) {
+	d := deck.New()
+	got := deck.AddRandomJokers(d)
+	if len(got) == len(d) {
+		t.Error("Can not have the same len if we add some jokers")
+	}
+}
