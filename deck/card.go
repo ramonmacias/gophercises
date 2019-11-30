@@ -69,6 +69,14 @@ func New() (cards []Card) {
 	return cards
 }
 
+// NewMultiple will build a deck of decks, n represents the number of decks to create
+func NewMultiple(n int) (ret [][]Card) {
+	for i := 0; i < n; i++ {
+		ret = append(ret, New())
+	}
+	return ret
+}
+
 // Sort function will sort an slice of cards with a given function sort or use
 // a default function instead
 func Sort(cards []Card, sortFunc func(cards []Card) []Card) []Card {
@@ -115,4 +123,16 @@ func AddRandomJokersN(cards []Card, n int) []Card {
 		cards = append(cards, Card{Ace, Joker})
 	}
 	return cards
+}
+
+// Filter function will remove from the src deck all the cards inside the exc deck
+func Filter(src []Card, exc []Card) (ret []Card) {
+	for _, card := range src {
+		for _, cardExc := range exc {
+			if cardExc.Rank != card.Rank || cardExc.Suit != card.Suit {
+				ret = append(ret, card)
+			}
+		}
+	}
+	return ret
 }

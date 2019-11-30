@@ -77,3 +77,30 @@ func TestAddRandomJokersFunc(t *testing.T) {
 		t.Error("Can not have the same len if we add some jokers")
 	}
 }
+
+func TestFilterFunc(t *testing.T) {
+	d := deck.New()
+	got := deck.Filter(d, []deck.Card{deck.Card{deck.Ace, deck.Spade}})
+	if len(d) == len(got) {
+		t.Errorf("Shouldn't be the same size, but expected %d and got %d", len(d)-1, len(got))
+	}
+	for _, card := range got {
+		if card.Rank == deck.Ace && card.Suit == deck.Spade {
+			t.Error("This card should be removed but isn't")
+		}
+	}
+}
+
+func TestNewMultiple(t *testing.T) {
+	expectedSize := 3
+	expectedInnerDeckSize := 52
+	d := deck.NewMultiple(expectedSize)
+	if len(d) != expectedSize {
+		t.Errorf("Expected len %d but got %d", expectedSize, len(d))
+	}
+	for _, innerDeck := range d {
+		if len(innerDeck) != expectedInnerDeckSize {
+			t.Errorf("Expected len %d but got %d", expectedInnerDeckSize, len(innerDeck))
+		}
+	}
+}
