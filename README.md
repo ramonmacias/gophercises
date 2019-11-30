@@ -44,3 +44,9 @@ named bolt, and how to use go install in order to have this client install in my
 
 With this exercise I learn of how to use the sql standard library, on that case ho to config and setup a new client for connect to a
 postgres database, the idea is to try another packages but I tried before the GORM so makes no sense for me to do it
+
+
+#### Deck
+
+With this exercise I learn about how to use functions as an object, know more about the rand library and sort library and model all related
+with the term of cards and decks.
